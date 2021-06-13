@@ -18,7 +18,7 @@
 
     <v-card-actions :class="{ 'pa-3': $vuetify.breakpoint.smAndUp }">
       <v-spacer></v-spacer>
-      <v-btn color="primary">
+      <v-btn color="primary" @click="guestLogin(username)">
         <v-icon left>mdi-login</v-icon>
         Ingresar como invitado
       </v-btn>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import {mapMutations} from "vuex";
+import { mapMutations } from "vuex";
 
 export default {
   name: "GuestForm",
