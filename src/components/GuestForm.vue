@@ -16,7 +16,7 @@
 
     <v-divider></v-divider>
 
-    <v-card-actions :class="{ 'pa-3': $vuetify.breakpoint.smAndUp }">
+    <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn color="primary" @click="guestLogin(username)">
         <v-icon left>mdi-login</v-icon>

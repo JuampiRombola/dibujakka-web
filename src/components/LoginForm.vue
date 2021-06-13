@@ -24,8 +24,8 @@
 
     <v-divider></v-divider>
 
-    <v-card-actions :class="{ 'pa-3': $vuetify.breakpoint.smAndUp }">
-      <v-btn color="secondary" text>
+    <v-card-actions>
+      <v-btn color="grey darken-1" text>
         Olvidé mi contraseña
       </v-btn>
       <v-spacer></v-spacer>
