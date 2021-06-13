@@ -21,11 +21,19 @@
     <v-main class="grey lighten-3">
       <router-view/>
     </v-main>
+
+    <LoginDialog></LoginDialog>
   </v-app>
 </template>
 
 <script>
+import LoginDialog from "@/components/LoginDialog";
+
 export default {
+  components: {
+    LoginDialog
+  },
+
   data: () => ({
     links: [
       'Dashboard',
