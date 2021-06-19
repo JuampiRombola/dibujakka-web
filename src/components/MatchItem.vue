@@ -12,7 +12,7 @@
         </v-col>
       </v-row>
     </v-card-title>
-    <v-card-actions class="py-2 px-3">
+    <v-card-actions class="pb-2 px-3 pt-0 my-0">
       <v-row no-gutters>
         <v-col cols="2">
           <div>
