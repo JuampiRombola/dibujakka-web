@@ -14,25 +14,7 @@
     </v-card-title>
     <v-card-actions class="pb-2 px-3 pt-0 my-0">
       <v-row no-gutters fluid>
-        <v-col sm="2" :cols="($vuetify.breakpoint.mdAndUp) ? 4 : 12">
-          <div>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                    color="green"
-                    dark
-                    left
-                    v-bind="attrs"
-                    v-on="on"
-                >
-                  mdi-chat
-                </v-icon>
-              </template>
-              <span>Language</span>
-            </v-tooltip>
-            <span class="overline">{{ match.language }}</span>
-          </div>
-        </v-col>
+
         <v-col sm="2" cols="4">
           <div>
             <v-tooltip bottom>
@@ -52,7 +34,7 @@
             <span class="overline">{{ match.playersCount }} / {{ match.totalPlayers }}</span>
           </div>
         </v-col>
-        <v-col sm="2" cols="6">
+        <v-col sm="2" cols="4">
           <div>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -69,6 +51,25 @@
               <span>Rounds</span>
             </v-tooltip>
             <span class="overline">{{ match.currentRound }} / {{ match.totalRounds }}</span>
+          </div>
+        </v-col>
+        <v-col sm="2" :cols="4">
+          <div>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  color="green"
+                  dark
+                  :left="$vuetify.breakpoint.mdAndUp"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  mdi-chat
+                </v-icon>
+              </template>
+              <span>Language</span>
+            </v-tooltip>
+            <span class="overline">{{ match.language }}</span>
           </div>
         </v-col>
         <v-spacer></v-spacer>
