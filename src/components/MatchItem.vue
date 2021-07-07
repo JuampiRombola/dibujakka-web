@@ -2,10 +2,10 @@
   <v-card class="text-left my-1" flat color="grey lighten-4" outlined>
     <v-card-title class="py-2 px-3">
       <v-row no-gutters>
-        <v-col cols="10">
+        <v-col cols="8">
           {{ match.name }}
         </v-col>
-        <v-col cols="2" class="text-right">
+        <v-col cols="4" class="text-right">
           <v-chip small outlined :color="match.status === 'Waiting' ? 'yellow darken-3' : 'green'">
             {{ match.status }}
           </v-chip>
@@ -13,8 +13,8 @@
       </v-row>
     </v-card-title>
     <v-card-actions class="pb-2 px-3 pt-0 my-0">
-      <v-row no-gutters>
-        <v-col cols="2">
+      <v-row no-gutters fluid>
+        <v-col sm="2" :cols="($vuetify.breakpoint.mdAndUp) ? 4 : 12">
           <div>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -33,7 +33,7 @@
             <span class="overline">{{ match.language }}</span>
           </div>
         </v-col>
-        <v-col cols="2">
+        <v-col sm="2" cols="4">
           <div>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -52,7 +52,7 @@
             <span class="overline">{{ match.playersCount }} / {{ match.totalPlayers }}</span>
           </div>
         </v-col>
-        <v-col cols="2">
+        <v-col sm="2" cols="6">
           <div>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -72,8 +72,8 @@
           </div>
         </v-col>
         <v-spacer></v-spacer>
-        <v-col cols="3" class="text-right">
-          <v-btn color="primary" small>
+        <v-col sm="4" cols="12" :class="($vuetify.breakpoint.smAndUp) ? 'text-right' : 'mt-2'">
+          <v-btn color="primary" small :block="!$vuetify.breakpoint.smAndUp">
             <v-icon left>mdi-location-enter</v-icon>
             join
           </v-btn>
