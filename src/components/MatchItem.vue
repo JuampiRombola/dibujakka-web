@@ -31,7 +31,7 @@
               </template>
               <span>Players</span>
             </v-tooltip>
-            <span class="overline">{{ match.playersCount }} / {{ match.totalPlayers }}</span>
+            <span class="overline">{{ match.playersCount }} / {{ match.maxPlayers }}</span>
           </div>
         </v-col>
         <v-col sm="2" cols="4">

@@ -23,7 +23,7 @@
           <v-card>
             <v-toolbar color="primary" dark dense>Create Room</v-toolbar>
             <v-card-text class="mt-2">
-              <RoomForm></RoomForm>
+              <RoomForm ref="roomForm"></RoomForm>
             </v-card-text>
             <v-card-actions class="justify-end">
               <v-btn text @click="roomFormDialog = false">Close</v-btn>
@@ -47,6 +47,7 @@
 <script>
 import MatchItem from "@/components/MatchItem";
 import RoomForm from "@/components/RoomForm";
+import { mapMutations } from "vuex";
 
 export default {
   components: {
@@ -58,31 +59,29 @@ export default {
 
   data: () => ({
     roomFormDialog: false,
-    matches: [{
-      id: 0,
-      name: 'Test match',
-      currentRound: 1,
-      totalRounds: 10,
-      playersCount: 2,
-      totalPlayers: 8,
-      language: 'english',
-      status: 'Waiting'
-    }, {
-      id: 1,
-      name: 'Partida test',
-      currentRound: 1,
-      totalRounds: 10,
-      playersCount: 1,
-      totalPlayers: 10,
-      language: 'spanish',
-      status: 'In progress'
-    }]
+    matches: []
   }),
 
   methods: {
+    ...mapMutations([
+      'postRoom',
+    ]),
+
     createRoom () {
+      const name = this.$refs.roomForm.name
+      const players = this.$refs.roomForm.players
+      const rounds = this.$refs.roomForm.rounds
+      const language = this.$refs.roomForm.language
+      this.postRoom({ name, players, rounds, language })
       this.roomFormDialog = false
     }
+  },
+
+  mounted() {
+    this.axios.get('/room').then(data => {
+      console.log(data.data.rooms)
+      this.matches = data?.data?.rooms
+    })
   }
 }
 </script>

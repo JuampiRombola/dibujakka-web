@@ -4,7 +4,7 @@ import Vue from 'vue';
 import axios from "axios";
 
 // Full config:  https://github.com/axios/axios#request-config
-// axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
+axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || 'http://localhost:8081';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -39,7 +39,7 @@ _axios.interceptors.response.use(
   }
 );
 
-Plugin.install = function(Vue, options) {
+Plugin.install = function(Vue) {
   Vue.axios = _axios;
   window.axios = _axios;
   Object.defineProperties(Vue.prototype, {
