@@ -79,7 +79,6 @@ export default {
 
   mounted() {
     this.axios.get('/room').then(data => {
-      console.log(data.data.rooms)
       this.matches = data?.data?.rooms
     })
   }

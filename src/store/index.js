@@ -27,8 +27,13 @@ export default new Vuex.Store({
       localStorage.setItem('dibujakka-token', null);
     },
     postRoom(state, { name, rounds, players, language }) {
-      const id = '2'
-      const path = `/room?id=${id}&name=${name}&totalRounds=${rounds}&maxPlayers=${players}&language=${language}`
+      const uuidv4 = () => {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+          const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      }
+      const path = `/room?id=${uuidv4()}&name=${name}&totalRounds=${rounds}&maxPlayers=${players}&language=${language}`
       axios.post(path)
     }
   },
