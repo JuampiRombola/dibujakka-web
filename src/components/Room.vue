@@ -13,11 +13,12 @@
         <v-divider></v-divider>
         <v-list>
           <v-list-item
-            v-for="player in players"
+            v-for="(player, i) in players"
             :key="player"
           >
             <v-list-item-icon>
-              <v-icon color="primary">mdi-account</v-icon>
+              <v-icon color="primary" v-if="i === players.length -1">mdi-crown</v-icon>
+              <v-icon color="primary" v-else>mdi-account</v-icon>
             </v-list-item-icon>
 
             <v-list-item-content>
@@ -27,7 +28,8 @@
         </v-list>
         <v-list>
           <v-list-item>
-            <v-btn block color="primary" :disabled="!canStart()">Start Game</v-btn>
+            <v-btn block color="primary" :disabled="!canStart()" v-if="isOwner()">Start Game</v-btn>
+            <v-btn block color="primary" disabled v-else>Only the owner can start the game</v-btn>
           </v-list-item>
         </v-list>
       </v-card>
@@ -52,6 +54,9 @@ export default {
   methods: {
     canStart () {
       return this.players.length > 1
+    },
+    isOwner() {
+      return this.$store.state.lastCreatedRoomId === this.$route.params.id
     }
   }
 

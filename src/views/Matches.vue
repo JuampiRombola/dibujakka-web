@@ -104,7 +104,7 @@ export default {
 
   mounted() {
     this.axios.get('/room').then(data => {
-      this.matches = data?.data?.rooms?.reverse()
+      this.matches = data?.data?.rooms
     })
   }
 }

@@ -95,6 +95,7 @@ export default {
         "robin": 2,
         "ari": 4,
       },
+      "players": ["juampi", "ceci", "robin", "ari"],
       "status": "waiting",
       "totalRounds": "10",
       "totalTime": "60",
@@ -108,7 +109,7 @@ export default {
       return this.room?.status === 'waiting'
     },
     players () {
-      return Object.keys(this.room?.scores) || []
+      return this.room?.players || []
     }
   },
 
