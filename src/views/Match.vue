@@ -69,6 +69,7 @@
 import DrawingTool from '@/components/DrawingTool';
 import DrawingViewer from '@/components/DrawingViewer';
 import Room from '@/components/Room';
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -80,6 +81,7 @@ export default {
   name: "Match",
 
   data: () => ({
+    webSocket: undefined,
     canvasWidth: 512,
     canvasHeight: 512,
     drawingMode: true,
@@ -105,6 +107,10 @@ export default {
   }),
 
   computed: {
+    ...mapGetters([
+      'fullUsername',
+    ]),
+
     waiting () {
       return this.room?.status === 'waiting'
     },
@@ -131,6 +137,18 @@ export default {
     },
     disableDrawingMode () {
       this.drawingMode = false
+    },
+    connectSocketAndJoinRoom () {
+      this.webSocket = new WebSocket(`ws://${this.axios.defaults.baseURL.substr(7)}/ws?roomId=${this.$route.params.id}`);
+      this.webSocket.onopen = () => {
+        this.joinRoom()
+      };
+    },
+    joinRoom () {
+      this.webSocket.send(JSON.stringify({
+        messageType: "join",
+        payload: this.fullUsername
+      }))
     }
   },
 
@@ -138,6 +156,7 @@ export default {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
     this.room = this.mockRoom
+    this.connectSocketAndJoinRoom()
   },
 
   beforeDestroy() {

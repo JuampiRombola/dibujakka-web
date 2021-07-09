@@ -18,6 +18,9 @@ export default new Vuex.Store({
   getters: {
     showLoginDialog: state => {
       return !state.username || state.showNameForm;
+    },
+    fullUsername: state => {
+      return state.username + state.token
     }
   },
   mutations: {
