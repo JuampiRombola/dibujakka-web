@@ -11,6 +11,7 @@
           ></v-img>
         </v-col>
       </v-row>
+
       <v-col class="text-center">
         <v-dialog
           transition="dialog-top-transition"
@@ -18,7 +19,7 @@
           v-model="roomFormDialog"
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" v-bind="attrs" v-on="on">Create Room</v-btn>
+            <v-btn color="primary" v-bind="attrs" v-on="on" class="my-2">Create Room</v-btn>
           </template>
           <v-card>
             <v-toolbar color="primary" dark dense>Create Room</v-toolbar>
@@ -33,6 +34,8 @@
           </v-card>
         </v-dialog>
       </v-col>
+
+      <v-divider></v-divider>
       <v-col class="text-center">
         <MatchItem
           v-for="match in matches"
@@ -64,22 +67,25 @@ export default {
 
   methods: {
     ...mapMutations([
-      'postRoom',
+      'generateLastCreatedRoomId',
+      'postRoom'
     ]),
 
     createRoom () {
+      this.generateLastCreatedRoomId()
+      const id = this.$store.state.lastCreatedRoomId
       const name = this.$refs.roomForm.name
       const players = this.$refs.roomForm.players
       const rounds = this.$refs.roomForm.rounds
       const language = this.$refs.roomForm.language
-      this.postRoom({ name, players, rounds, language })
+      this.postRoom({ id, name, players, rounds, language })
       this.roomFormDialog = false
     }
   },
 
   mounted() {
     this.axios.get('/room').then(data => {
-      this.matches = data?.data?.rooms
+      this.matches = data?.data?.rooms?.reverse()
     })
   }
 }

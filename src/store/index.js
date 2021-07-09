@@ -4,43 +4,43 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
+const generateUUIDv4 = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+  const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+  return v.toString(16);
+})
+
 export default new Vuex.Store({
   state: {
-    loginUsername: localStorage.getItem('dibujakka-username'),
-    token: localStorage.getItem('dibujakka-token'),
-    guestUsername: null,
+    username: localStorage.getItem('dibujakka-username') || undefined,
+    token: localStorage.getItem('dibujakka-token') || undefined,
+    lastCreatedRoomId: localStorage.getItem('dibujakka-last-created-room-id') || undefined
   },
   getters: {
     showLoginDialog: state => {
-      return state.guestUsername === null && state.token === null;
+      return !state.username;
     }
   },
   mutations: {
-    guestLogin (state, guestUsername) {
-      state.guestUsername = guestUsername;
-    },
-    login (state, { username, token }) {
+    setUsername (state, username) {
+      state.username = username
       localStorage.setItem('dibujakka-username', username);
-      localStorage.setItem('dibujakka-token', token);
     },
-    logout () {
-      localStorage.setItem('dibujakka-token', null);
-    },
-    postRoom(state, { name, rounds, players, language }) {
-      const uuidv4 = () => {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-          const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-          return v.toString(16);
-        });
-      }
-      const path = `/room?id=${uuidv4()}&name=${name}&totalRounds=${rounds}&maxPlayers=${players}&language=${language}`
+    postRoom(state, { id, name, rounds, players, language }) {
+      const path = `/room?id=${id}&name=${name}&totalRounds=${rounds}&maxPlayers=${players}&language=${language}`
       axios.post(path)
+    },
+    generateUserToken (state) {
+      const uuid = generateUUIDv4();
+      state.token = uuid
+      localStorage.setItem('dibujakka-token', uuid)
+    },
+    generateLastCreatedRoomId (state) {
+      const uuid = generateUUIDv4();
+      state.lastCreatedRoomId = uuid
+      localStorage.setItem('dibujakka-last-created-room-id', uuid)
     }
   },
   actions: {
-    getRooms() {
-      axios.get('/room')
-    }
   },
   modules: {
   }
