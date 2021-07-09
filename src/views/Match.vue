@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations, mapState} from "vuex";
+import { mapGetters, mapMutations, mapState } from "vuex";
 import Room from '@/components/Room';
 import PlayingRoom from "@/components/PlayingRoom";
 

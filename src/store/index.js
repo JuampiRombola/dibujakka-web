@@ -52,7 +52,7 @@ export default new Vuex.Store({
       state.chatMessages.push(msg)
     },
     setDrawingFromServer (state, drawing) {
-      state.setDrawingFromServer = drawing
+      state.drawingFromServer = drawing
     }
   },
   actions: {

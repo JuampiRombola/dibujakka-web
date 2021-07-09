@@ -29,7 +29,7 @@
         id="drawingSheet"
       >
         <div v-if="drawingModeEnabled">
-          <DrawingTool ref="drawingTool"></DrawingTool>
+          <DrawingTool ref="drawingTool" :web-socket="webSocket"></DrawingTool>
         </div>
         <div v-else>
           <DrawingViewer ref="drawingViewer"></DrawingViewer>
@@ -60,6 +60,7 @@
         class="px-2"
       >
         <div class="overline text-center">CHAT</div>
+        <v-divider></v-divider>
         <v-virtual-scroll
           height="280"
           item-height="30"
@@ -80,7 +81,7 @@
           color="grey"
           append-icon="mdi-send"
           @click:append="sendWord"
-          :disabled="drawingModeEnabled"
+          :disabled="chatEnabled"
         >
         </v-text-field>
       </v-sheet>
@@ -158,8 +159,7 @@ export default {
   computed: {
     ...mapState([
       'room',
-      'chatMessages',
-      'drawingFromServer'
+      'chatMessages'
     ]),
     ...mapGetters([
       'fullUsername',
@@ -172,10 +172,16 @@ export default {
     },
     inProgress () {
       return this.room.status === 'in progress'
+    },
+    chatEnabled () {
+      return this.drawingModeEnabled && this.inProgress
     }
   },
 
   updated() {
+    if (document.getElementById("drawingSheet")) {
+      this.handleResize()
+    }
     const element = document.getElementById('virtual-scroll')
     element.scrollTop = element.scrollHeight
   },
@@ -201,9 +207,6 @@ export default {
         console.log()
       },
       deep: true
-    },
-    drawingFromServer () {
-      console.log('')
     }
   }
 }

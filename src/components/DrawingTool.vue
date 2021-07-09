@@ -58,6 +58,10 @@ export default {
     Editor
   },
 
+  props: {
+    webSocket: {}
+  },
+
   name: "DrawingTool",
 
   data: () => ({
@@ -77,7 +81,8 @@ export default {
   methods: {
     enableDrawingMode () {
       this.freeDrawing()
-      // this.pollingInterval = setInterval(this.sendDrawingToServer, 1500)
+      this.pollingInterval = setInterval(this.sendDrawingToServer, 1000)
+      setTimeout(() => clearInterval(this.pollingInterval), 60000)
     },
     freeDrawing () {
       this.currentTool = 'freeDrawing'
@@ -94,7 +99,10 @@ export default {
       this.$refs.editor.clear()
     },
     sendDrawingToServer () {
-      console.log(this.drawing2String)
+      this.webSocket.send(JSON.stringify({
+        messageType: "draw",
+        payload: this.drawing2String
+      }))
     },
     colorIfSelected (tool) {
       return this.currentTool === tool ? 'blue' : 'grey'
