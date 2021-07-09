@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -29,10 +28,6 @@ export default new Vuex.Store({
     },
     showNameForm (state) {
       state.showNameForm = true
-    },
-    postRoom(state, { id, name, rounds, players, language }) {
-      const path = `/room?id=${id}&name=${name}&totalRounds=${rounds}&maxPlayers=${players}&language=${language}`
-      axios.post(path)
     },
     generateUserToken (state) {
       const uuid = generateUUIDv4();

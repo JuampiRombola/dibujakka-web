@@ -41,6 +41,10 @@ export default {
       value: 'english'
     }]
   }),
+
+  mounted() {
+    this.name = `${this.$store.state.username}'s room`
+  }
 }
 </script>
 

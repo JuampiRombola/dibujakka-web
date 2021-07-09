@@ -34,7 +34,7 @@
             <v-card-actions class="justify-end">
               <v-btn text @click="roomFormDialog = false">Close</v-btn>
               <v-spacer></v-spacer>
-              <v-btn color="primary" @click="createRoom">Create</v-btn>
+              <v-btn color="primary" @click="createRoom" :disabled="loadingRoomCreation">Create</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -67,25 +67,34 @@ export default {
 
   data: () => ({
     roomFormDialog: false,
+    loadingRoomCreation: false,
     matches: []
   }),
 
   methods: {
     ...mapMutations([
       'generateLastCreatedRoomId',
-      'postRoom',
       'showNameForm'
     ]),
 
     createRoom () {
+      this.loadingRoomCreation = true
       this.generateLastCreatedRoomId()
       const id = this.$store.state.lastCreatedRoomId
       const name = this.$refs.roomForm.name
       const players = this.$refs.roomForm.players
       const rounds = this.$refs.roomForm.rounds
       const language = this.$refs.roomForm.language
-      this.postRoom({ id, name, players, rounds, language })
-      this.roomFormDialog = false
+      this.axios
+        .post(`/room?id=${id}&name=${name}&totalRounds=${rounds}&maxPlayers=${players}&language=${language}`)
+        .then(() => {
+          this.roomFormDialog = false
+          this.$router.push({ name: 'Match', params: { id: id } })
+          this.loadingRoomCreation = false
+        })
+        .catch(() => {
+          this.loadingRoomCreation = false
+        })
     },
 
     editUsername () {

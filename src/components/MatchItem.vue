@@ -74,7 +74,7 @@
         </v-col>
         <v-spacer></v-spacer>
         <v-col sm="4" cols="12" :class="($vuetify.breakpoint.smAndUp) ? 'text-right' : 'mt-2'">
-          <v-btn color="primary" small :block="!$vuetify.breakpoint.smAndUp">
+          <v-btn color="primary" small :block="!$vuetify.breakpoint.smAndUp" @click="joinRoom">
             <v-icon left>mdi-location-enter</v-icon>
             join
           </v-btn>
@@ -92,7 +92,13 @@ export default {
     }
   },
 
-  name: "MatchItem"
+  name: "MatchItem",
+
+  methods: {
+    joinRoom () {
+      this.$router.push({ name: 'Match', params: { id: this.match.id } })
+    }
+  }
 }
 </script>
 

@@ -1,6 +1,9 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row v-if="waiting">
+      <Room :players="players"></Room>
+    </v-row>
+    <v-row v-else>
       <v-col
         cols="2"
         v-if="$vuetify.breakpoint.lgAndUp"
@@ -65,11 +68,13 @@
 <script>
 import DrawingTool from '@/components/DrawingTool';
 import DrawingViewer from '@/components/DrawingViewer';
+import Room from '@/components/Room';
 
 export default {
   components: {
     DrawingTool,
-    DrawingViewer
+    DrawingViewer,
+    Room
   },
 
   name: "Match",
@@ -77,8 +82,35 @@ export default {
   data: () => ({
     canvasWidth: 512,
     canvasHeight: 512,
-    drawingMode: true
+    drawingMode: true,
+    room: {},
+    mockRoom: {
+      "currentRound": "0",
+      "language": "spanish",
+      "playersWhoGuessed": [],
+      "remainingTime": "10",
+      "scores": {
+        "juampi": 0,
+        "ceci": 1,
+        "robin": 2,
+        "ari": 4,
+      },
+      "status": "waiting",
+      "totalRounds": "10",
+      "totalTime": "60",
+      "whoIsDrawing": "juampi",
+      "word": "word"
+    }
   }),
+
+  computed: {
+    waiting () {
+      return this.room?.status === 'waiting'
+    },
+    players () {
+      return Object.keys(this.room?.scores) || []
+    }
+  },
 
   methods: {
     handleResize () {
@@ -104,6 +136,7 @@ export default {
   mounted() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
+    this.room = this.mockRoom
   },
 
   beforeDestroy() {
