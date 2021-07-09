@@ -13,17 +13,22 @@ export default new Vuex.Store({
   state: {
     username: localStorage.getItem('dibujakka-username') || undefined,
     token: localStorage.getItem('dibujakka-token') || undefined,
-    lastCreatedRoomId: localStorage.getItem('dibujakka-last-created-room-id') || undefined
+    lastCreatedRoomId: localStorage.getItem('dibujakka-last-created-room-id') || undefined,
+    showNameForm: false,
   },
   getters: {
     showLoginDialog: state => {
-      return !state.username;
+      return !state.username || state.showNameForm;
     }
   },
   mutations: {
     setUsername (state, username) {
       state.username = username
+      state.showNameForm = false
       localStorage.setItem('dibujakka-username', username);
+    },
+    showNameForm (state) {
+      state.showNameForm = true
     },
     postRoom(state, { id, name, rounds, players, language }) {
       const path = `/room?id=${id}&name=${name}&totalRounds=${rounds}&maxPlayers=${players}&language=${language}`

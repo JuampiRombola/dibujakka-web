@@ -12,6 +12,11 @@
         </v-col>
       </v-row>
 
+      <v-col class="text-center mb-0 pb-0 mt-1 overline" v-if="$store.state.username">
+        Hello, {{ $store.state.username }}
+        <v-icon small color="grey" @click="editUsername" class="pt-0 mt-0 pb-1">mdi-pencil</v-icon>
+      </v-col>
+
       <v-col class="text-center">
         <v-dialog
           transition="dialog-top-transition"
@@ -19,7 +24,7 @@
           v-model="roomFormDialog"
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" v-bind="attrs" v-on="on" class="my-2">Create Room</v-btn>
+            <v-btn color="primary" v-bind="attrs" v-on="on" class="mb-2">Create Room</v-btn>
           </template>
           <v-card>
             <v-toolbar color="primary" dark dense>Create Room</v-toolbar>
@@ -68,7 +73,8 @@ export default {
   methods: {
     ...mapMutations([
       'generateLastCreatedRoomId',
-      'postRoom'
+      'postRoom',
+      'showNameForm'
     ]),
 
     createRoom () {
@@ -80,6 +86,10 @@ export default {
       const language = this.$refs.roomForm.language
       this.postRoom({ id, name, players, rounds, language })
       this.roomFormDialog = false
+    },
+
+    editUsername () {
+      this.showNameForm()
     }
   },
 

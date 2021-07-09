@@ -56,7 +56,7 @@ export default {
   data () {
     return {
       tab: null,
-      username: '',
+      username: this.$store.state.username,
       valid: false,
       rules: [
         v => !!v || 'Name is required',
