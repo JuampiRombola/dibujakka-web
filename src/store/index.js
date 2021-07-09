@@ -14,6 +14,9 @@ export default new Vuex.Store({
     token: localStorage.getItem('dibujakka-token') || undefined,
     lastCreatedRoomId: localStorage.getItem('dibujakka-last-created-room-id') || undefined,
     showNameForm: false,
+    room: {},
+    chatMessages: [],
+    drawingFromServer: ''
   },
   getters: {
     showLoginDialog: state => {
@@ -41,6 +44,15 @@ export default new Vuex.Store({
       const uuid = generateUUIDv4();
       state.lastCreatedRoomId = uuid
       localStorage.setItem('dibujakka-last-created-room-id', uuid)
+    },
+    setRoom (state, room) {
+      state.room = room
+    },
+    addChatMessage (state, msg) {
+      state.chatMessages.push(msg)
+    },
+    setDrawingFromServer (state, drawing) {
+      state.setDrawingFromServer = drawing
     }
   },
   actions: {

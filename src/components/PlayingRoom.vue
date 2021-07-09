@@ -41,7 +41,6 @@
         rounded="lg"
         min-height="268"
       >
-        <!--  -->
       </v-sheet>
     </v-col>
 
@@ -50,11 +49,34 @@
       lg="3"
     >
       <v-sheet
-        color="grey"
+        height="344"
         rounded="lg"
-        min-height="268"
+        color="grey lighten-4"
+        class="px-2"
       >
-        <!--  -->
+        <v-virtual-scroll
+          height="280"
+          item-height="30"
+          :items="chatMessages"
+          id="virtual-scroll"
+        >
+          <template v-slot:default="{ item }">
+            <v-chip small class="ma-1">{{ item }}</v-chip>
+          </template>
+        </v-virtual-scroll>
+        <v-divider class="my-2"></v-divider>
+        <v-text-field
+          v-model="word"
+          hide-details
+          outlined
+          dense
+          @keydown.enter="sendWord"
+          color="grey"
+          append-icon="mdi-send"
+          @click:append="sendWord"
+          :disabled="drawingModeEnabled"
+        >
+        </v-text-field>
       </v-sheet>
     </v-col>
   </v-row>
@@ -63,6 +85,7 @@
 <script>
 import DrawingTool from '@/components/DrawingTool';
 import DrawingViewer from '@/components/DrawingViewer';
+import { mapState, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -71,22 +94,22 @@ export default {
   },
 
   props: {
-    room: {
-      type: Object,
-      default: () => ({
-        currentRound: "0",
-        language: "",
-        players: [],
-        playersWhoGuessed: [],
-        remainingTime: "60",
-        scores: {},
-        status: "interval",
-        totalRounds: "10",
-        totalTime: "60",
-        whoIsDrawing: "",
-        word: ""
-      })
-    },
+    // room: {
+    //   type: Object,
+    //   default: () => ({
+    //     currentRound: "0",
+    //     language: "",
+    //     players: [],
+    //     playersWhoGuessed: [],
+    //     remainingTime: "60",
+    //     scores: {},
+    //     status: "interval",
+    //     totalRounds: "10",
+    //     totalTime: "60",
+    //     whoIsDrawing: "",
+    //     word: ""
+    //   })
+    // }
     webSocket: {}
   },
 
@@ -94,7 +117,8 @@ export default {
 
   data: () => ({
     canvasWidth: 512,
-    canvasHeight: 512
+    canvasHeight: 512,
+    word: ''
   }),
 
   methods: {
@@ -109,10 +133,28 @@ export default {
       } else {
         this.$refs.drawingViewer.setDimensions({width: this.canvasWidth, height: this.canvasHeight});
       }
+    },
+    sendWord () {
+      if (this.word.length !== 0) {
+        this.webSocket.send(JSON.stringify({
+          messageType: "chat",
+          word: this.word,
+          userName: this.fullUsername
+        }))
+        this.word = ''
+      }
     }
   },
 
   computed: {
+    ...mapState([
+      'room',
+      'chatMessages',
+      'drawingFromServer'
+    ]),
+    ...mapGetters([
+      'fullUsername',
+    ]),
     drawingModeEnabled () {
       return this.inProgress && this.localPlayerIsDrawing
     },
@@ -124,6 +166,11 @@ export default {
     }
   },
 
+  updated() {
+    const element = document.getElementById('virtual-scroll')
+    element.scrollTop = element.scrollHeight
+  },
+
   mounted() {
     window.addEventListener('resize', this.handleResize)
     this.handleResize()
@@ -131,6 +178,24 @@ export default {
 
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize)
+  },
+
+  watch: {
+    room: {
+      handler: () => {
+        console.log()
+      },
+      deep: true
+    },
+    chatMessages: {
+      handler: () => {
+        console.log()
+      },
+      deep: true
+    },
+    drawingFromServer () {
+      console.log('')
+    }
   }
 }
 </script>

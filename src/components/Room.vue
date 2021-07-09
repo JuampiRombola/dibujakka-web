@@ -38,19 +38,26 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
   name: "Room",
 
   props: {
-    players: {
-      type: Array,
-      default: () => []
-    },
     webSocket: {}
   },
 
   data: () => ({
   }),
+
+  computed: {
+    ...mapState([
+      'room'
+    ]),
+    players () {
+      return this.room?.players || []
+    }
+  },
 
   methods: {
     canStart () {

@@ -1,14 +1,14 @@
 <template>
   <v-container v-if="playing">
-    <PlayingRoom :room="room" web-socket="web-socket"></PlayingRoom>
+    <PlayingRoom :web-socket="webSocket" />
   </v-container>
   <v-container v-else>
-    <Room :players="players" :web-socket="webSocket"></Room>
+    <Room :web-socket="webSocket" />
   </v-container>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters, mapMutations, mapState} from "vuex";
 import Room from '@/components/Room';
 import PlayingRoom from "@/components/PlayingRoom";
 
@@ -21,13 +21,13 @@ export default {
   name: "Match",
 
   data: () => ({
-    webSocket: undefined,
-    room: {},
-    chatMessages: [],
-    drawingFromServer: ''
+    webSocket: undefined
   }),
 
   computed: {
+    ...mapState([
+      'room'
+    ]),
     ...mapGetters([
       'fullUsername',
     ]),
@@ -40,6 +40,11 @@ export default {
   },
 
   methods: {
+    ...mapMutations([
+      'setRoom',
+      'addChatMessage',
+      'setDrawingFromServer'
+    ]),
     connectSocketAndJoinRoom () {
       this.webSocket = new WebSocket(`ws://${this.axios.defaults.baseURL.substr(7)}/ws?roomId=${this.$route.params.id}`);
       this.webSocket.onmessage = (data) => {
@@ -59,14 +64,13 @@ export default {
       const command = JSON.parse(newMessage)
       const messageType = command?.messageType
       if (messageType === 'room') {
-        console.log(command.payload)
-        this.room = command.payload
+        this.setRoom(command.payload)
       }
       if (messageType === 'chat') {
-        this.chatMessages.push(command.payload)
+        this.addChatMessage(command.payload)
       }
       if (messageType === 'draw') {
-        this.drawingFromServer = command.payload
+        this.setDrawingFromServer(command.payload)
       }
     }
   },
