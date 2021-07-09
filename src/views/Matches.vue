@@ -40,7 +40,7 @@
         </v-dialog>
       </v-col>
 
-      <v-divider></v-divider>
+      <v-divider v-if="matches.length"></v-divider>
       <v-col class="text-center">
         <MatchItem
           v-for="match in matches"

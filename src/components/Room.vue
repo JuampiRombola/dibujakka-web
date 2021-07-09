@@ -22,13 +22,13 @@
             </v-list-item-icon>
 
             <v-list-item-content>
-              <v-list-item-title v-text="player"></v-list-item-title>
+              <v-list-item-title v-text="extractUsername(player)"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
         <v-list>
           <v-list-item>
-            <v-btn block color="primary" :disabled="!canStart()" v-if="isOwner()">Start Game</v-btn>
+            <v-btn block color="primary" :disabled="!canStart()" v-if="isOwner()" @click="startGame">Start Game</v-btn>
             <v-btn block color="primary" disabled v-else>Only the owner can start the game</v-btn>
           </v-list-item>
         </v-list>
@@ -45,7 +45,8 @@ export default {
     players: {
       type: Array,
       default: () => []
-    }
+    },
+    webSocket: {}
   },
 
   data: () => ({
@@ -55,8 +56,17 @@ export default {
     canStart () {
       return this.players.length > 1
     },
-    isOwner() {
+    isOwner () {
       return this.$store.state.lastCreatedRoomId === this.$route.params.id
+    },
+    extractUsername (fullUsername) {
+      return fullUsername.substring(0, fullUsername.length-36)
+    },
+    startGame () {
+      this.webSocket.send(JSON.stringify({
+        messageType: "start",
+        payload: ""
+      }))
     }
   }
 
