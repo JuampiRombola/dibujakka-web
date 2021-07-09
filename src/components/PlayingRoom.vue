@@ -5,11 +5,16 @@
       v-if="$vuetify.breakpoint.lgAndUp"
     >
       <v-sheet
-        color="grey"
+        color="grey lighten-4"
         rounded="lg"
         min-height="268"
       >
-        <!--  -->
+        <div class="overline text-center">SCORES</div>
+        <v-divider></v-divider>
+        <v-row v-for="player in room.players" :key="player" class="ma-0 py-0 px-3 overline" no-gutters >
+          <v-col cols="8">{{ extractUsername(player) }}</v-col>
+          <v-col cols="4" class="text-right">{{ room.scores[player] }}</v-col>
+        </v-row>
       </v-sheet>
     </v-col>
 
@@ -49,11 +54,12 @@
       lg="3"
     >
       <v-sheet
-        height="344"
+        height="377"
         rounded="lg"
         color="grey lighten-4"
         class="px-2"
       >
+        <div class="overline text-center">CHAT</div>
         <v-virtual-scroll
           height="280"
           item-height="30"
@@ -143,7 +149,10 @@ export default {
         }))
         this.word = ''
       }
-    }
+    },
+    extractUsername (fullUsername) {
+      return fullUsername.substring(0, fullUsername.length-36)
+    },
   },
 
   computed: {
