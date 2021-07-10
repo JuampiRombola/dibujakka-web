@@ -17,7 +17,7 @@
             :key="player"
           >
             <v-list-item-icon>
-              <v-icon color="primary" v-if="i === players.length -1">mdi-crown</v-icon>
+              <v-icon color="primary" v-if="i === players.length - 1">mdi-crown</v-icon>
               <v-icon color="primary" v-else>mdi-account</v-icon>
             </v-list-item-icon>
 
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "Room",
@@ -52,7 +52,8 @@ export default {
 
   computed: {
     ...mapState([
-      'room'
+      'room',
+      'token',
     ]),
     players () {
       return this.room?.players || []
@@ -64,7 +65,12 @@ export default {
       return this.players.length > 1
     },
     isOwner () {
-      return this.$store.state.lastCreatedRoomId === this.$route.params.id
+      return (this.players.length === 0)
+        ? false
+        : this.extractToken(this.players.slice(-1)[0]) === this.token
+    },
+    extractToken (fullUsername) {
+      return fullUsername.substr(this.extractUsername(fullUsername).length)
     },
     extractUsername (fullUsername) {
       return fullUsername.substring(0, fullUsername.length-36)
