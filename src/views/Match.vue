@@ -1,6 +1,6 @@
 <template>
   <v-container v-if="playing">
-    <PlayingRoom :web-socket="webSocket" />
+    <PlayingRoom :web-socket="webSocket" :remaining-time="remainingTime" />
   </v-container>
   <v-container v-else>
     <Room :web-socket="webSocket" />
@@ -21,7 +21,9 @@ export default {
   name: "Match",
 
   data: () => ({
-    webSocket: undefined
+    webSocket: undefined,
+    remainingTime: '',
+    timerInterval: ''
   }),
 
   computed: {
@@ -64,6 +66,11 @@ export default {
       const command = JSON.parse(newMessage)
       const messageType = command?.messageType
       if (messageType === 'room') {
+        if (!this.room) {
+          this.startTimer(command.payload?.remainingTime)
+        } else if (command.payload?.currentRound !== this.room.currentRound) {
+          this.startTimer(command.payload?.totalTime)
+        }
         this.setRoom(command.payload)
       }
       if (messageType === 'chat') {
@@ -72,6 +79,31 @@ export default {
       if (messageType === 'draw') {
         this.setDrawingFromServer(command.payload)
       }
+    },
+    startTimer (duration) {
+      clearInterval(this.timerInterval)
+      let start = Date.now(),
+        diff,
+        seconds;
+      const timer = () => {
+        // get the number of seconds that have elapsed since
+        // startTimer() was called
+        diff = duration - (((Date.now() - start) / 1000) | 0);
+
+        seconds = diff | 0;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        this.remainingTime = seconds;
+
+        if (diff <= 0) {
+          // add one second so that the count down starts at the full duration
+          // example 05:00 not 04:59
+          start = Date.now() + 1000;
+        }
+      };
+      // we don't want to wait a full second before the timer starts
+      timer();
+      this.timerInterval = setInterval(timer, 1000);
     }
   },
 

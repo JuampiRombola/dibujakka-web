@@ -1,5 +1,25 @@
 <template>
   <v-row>
+    <v-col cols="12" class="pb-0">
+      <v-toolbar
+        flat
+        dense
+        color="grey lighten-4"
+      >
+        <v-card-title>
+          <span class="overline">ROUND: {{ room.currentRound }}/{{ room.totalRounds }}</span>
+        </v-card-title>
+        <v-spacer></v-spacer>
+        <v-card-title v-if="localPlayerIsDrawing">
+          <span class="overline">{{ room.word }}</span>
+        </v-card-title>
+        <v-spacer></v-spacer>
+        <v-card-title>
+          <v-icon left>mdi-timer-sand</v-icon>
+          <span class="overline">{{ remainingTime }}</span>
+        </v-card-title>
+      </v-toolbar>
+    </v-col>
     <v-col
       cols="2"
       v-if="$vuetify.breakpoint.lgAndUp"
@@ -117,7 +137,8 @@ export default {
     //     word: ""
     //   })
     // }
-    webSocket: {}
+    webSocket: {},
+    remainingTime: {}
   },
 
   name: "PlayingRoom",
@@ -153,7 +174,7 @@ export default {
     },
     extractUsername (fullUsername) {
       return fullUsername.substring(0, fullUsername.length-36)
-    },
+    }
   },
 
   computed: {
