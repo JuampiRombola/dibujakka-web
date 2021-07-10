@@ -29,6 +29,7 @@
               prepend-icon="mdi-account"
               v-model="username"
               class="mb-0 pb-0"
+              @keydown.enter="submitForm"
             ></v-text-field>
           </v-card-text>
 

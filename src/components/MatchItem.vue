@@ -74,7 +74,7 @@
         </v-col>
         <v-spacer></v-spacer>
         <v-col sm="4" cols="12" :class="($vuetify.breakpoint.smAndUp) ? 'text-right' : 'mt-2'">
-          <v-btn color="primary" small :block="!$vuetify.breakpoint.smAndUp" @click="joinRoom">
+          <v-btn color="primary" small :block="!$vuetify.breakpoint.smAndUp" @click="joinRoom" :disabled="disableJoinButton">
             <v-icon left>mdi-location-enter</v-icon>
             join
           </v-btn>
@@ -93,6 +93,12 @@ export default {
   },
 
   name: "MatchItem",
+
+  computed: {
+    disableJoinButton () {
+      return this.match?.playersCount >= this.match?.maxPlayers
+    }
+  },
 
   methods: {
     joinRoom () {

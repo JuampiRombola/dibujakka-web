@@ -28,7 +28,7 @@
           </template>
           <v-card>
             <v-toolbar color="primary" dark dense>Create Room</v-toolbar>
-            <v-card-text class="mt-2">
+            <v-card-text class="mt-5 mb-0 pb-0">
               <RoomForm ref="roomForm"></RoomForm>
             </v-card-text>
             <v-card-actions class="justify-end">
