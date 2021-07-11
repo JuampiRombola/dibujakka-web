@@ -7,7 +7,7 @@
         </v-col>
         <v-col cols="4" class="text-right">
           <v-chip small outlined :color="match.status === 'Waiting' ? 'yellow darken-3' : 'green'">
-            {{ match.status }}
+            {{ statuses[match.status] }}
           </v-chip>
         </v-col>
       </v-row>
@@ -93,6 +93,15 @@ export default {
   },
 
   name: "MatchItem",
+
+  data: () => ({
+    statuses: {
+      waiting: 'En espera',
+      'in progress': 'En partida',
+      finished: 'Terminado',
+      interval: 'Intervalo'
+    }
+  }),
 
   computed: {
     disableJoinButton () {

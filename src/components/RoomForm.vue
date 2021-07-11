@@ -30,11 +30,11 @@ export default {
     name: '',
     players: 10,
     rounds: 10,
-    language: 'Español',
+    language: 'spanish',
     playersItems: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
     roundsItems: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
     languageItems: [{
-      text: 'Spanish',
+      text: 'Español',
       value: 'spanish'
     }]
   }),
