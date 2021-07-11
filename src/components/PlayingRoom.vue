@@ -181,6 +181,11 @@ export default {
     },
     getOrderedScores () {
       return Object.entries(this.room.scores).sort((a, b) => a[1] > b[1] ? -1 : 1).map(e => e[0])
+    },
+    setDrawing (strDataURI) {
+      if (!this.localPlayerIsDrawing && this.inProgress) {
+        this.$refs.drawingViewer.setDrawing(strDataURI)
+      }
     }
   },
 

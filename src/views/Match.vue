@@ -1,6 +1,6 @@
 <template>
   <v-container v-if="playing">
-    <PlayingRoom :web-socket="webSocket" :remaining-time="remainingTime" />
+    <PlayingRoom :web-socket="webSocket" :remaining-time="remainingTime" ref="playingRoom" />
   </v-container>
   <v-container v-else>
     <Room :web-socket="webSocket" />
@@ -44,8 +44,7 @@ export default {
   methods: {
     ...mapMutations([
       'setRoom',
-      'addChatMessage',
-      'setDrawingFromServer'
+      'addChatMessage'
     ]),
     connectSocketAndJoinRoom () {
       this.webSocket = new WebSocket(`ws://${this.axios.defaults.baseURL.substr(7)}/ws?roomId=${this.$route.params.id}`);
@@ -77,7 +76,7 @@ export default {
         this.addChatMessage(command.payload)
       }
       if (messageType === 'draw') {
-        this.setDrawingFromServer(command.payload)
+        this.$refs.playingRoom.setDrawing(command.payload)
       }
     },
     startTimer (duration) {

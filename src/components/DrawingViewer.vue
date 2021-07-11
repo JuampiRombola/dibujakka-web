@@ -3,8 +3,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
 export default {
   name: "DrawingViewer",
 
@@ -13,26 +11,17 @@ export default {
     pollingInterval: undefined,
   }),
 
-  computed: {
-    ...mapState([
-      'drawingFromServer'
-    ]),
-  },
-
   methods: {
     setDimensions ({ width, height }) {
       this.$refs.canvasViewer.width = width
       this.$refs.canvasViewer.height = height
-    }
-  },
-
-  watch: {
-    drawingFromServer (strDataURI) {
+    },
+    setDrawing (strDataURI) {
       const img = new Image();
       img.addEventListener("load", () => {
         this.$refs.canvasViewer
           .getContext("2d")
-          .drawImage(img, 0, 0);
+          .drawImage(img, 0, 0, img.width, img.height, 0, 0, this.$refs.canvasViewer.width, this.$refs.canvasViewer.height);
       });
       img.setAttribute("src", strDataURI);
     }
