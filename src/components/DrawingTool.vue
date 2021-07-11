@@ -100,10 +100,12 @@ export default {
     },
     sendDrawingToServer () {
       this.chunkSubstr(this.drawing2String + 'END', 1000).forEach(chunk => {
-      this.webSocket.send(JSON.stringify({
-      messageType: "draw",
-      payload: chunk}))
-    })},
+        this.webSocket.send(JSON.stringify({
+          messageType: "draw",
+          payload: chunk
+        }))
+      })
+    },
     colorIfSelected (tool) {
       return this.currentTool === tool ? 'blue' : 'grey'
     },
