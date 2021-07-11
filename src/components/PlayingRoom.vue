@@ -10,7 +10,7 @@
           <span class="overline">ROUND: {{ room.currentRound }}/{{ room.totalRounds }}</span>
         </v-card-title>
         <v-spacer></v-spacer>
-        <v-card-title v-if="localPlayerIsDrawing">
+        <v-card-title v-if="localPlayerIsDrawing || isInterval">
           <span class="overline">{{ room.word }}</span>
         </v-card-title>
         <v-spacer></v-spacer>
@@ -52,11 +52,20 @@
         rounded="lg"
         id="drawingSheet"
       >
-        <div v-if="drawingModeEnabled">
-          <DrawingTool ref="drawingTool" :web-socket="webSocket"></DrawingTool>
+        <div v-if="isInterval">
+          <v-row align="center" justify="center" no-gutters class="ma-0 pa-0">
+            <v-col class="text-center ma-0 pa-0">
+              Waiting for next round
+            </v-col>
+          </v-row>
         </div>
-        <div v-else>
-          <DrawingViewer ref="drawingViewer"></DrawingViewer>
+        <div>
+          <div v-if="drawingModeEnabled">
+            <DrawingTool ref="drawingTool" :web-socket="webSocket"></DrawingTool>
+          </div>
+          <div v-else>
+            <DrawingViewer ref="drawingViewer"></DrawingViewer>
+          </div>
         </div>
       </v-sheet>
     </v-col>
@@ -199,6 +208,9 @@ export default {
     },
     inProgress () {
       return this.room.status === 'in progress'
+    },
+    isInterval () {
+      return this.room.status === 'interval'
     },
     chatDisabled () {
       return this.drawingModeEnabled || !this.inProgress || this.hasGuessed

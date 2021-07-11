@@ -70,6 +70,9 @@ export default {
         } else if (command.payload?.currentRound !== this.room.currentRound) {
           this.startTimer(command.payload?.totalTime)
         }
+        if (command.payload?.status !== this.room.status && command.payload.status === 'interval') {
+          this.startTimer(10) // hardcoded 10s interval
+        }
         this.setRoom(command.payload)
       }
       if (messageType === 'chat') {
