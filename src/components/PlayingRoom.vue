@@ -31,8 +31,12 @@
       >
         <div class="overline text-center">SCORES</div>
         <v-divider></v-divider>
-        <v-row v-for="player in room.players" :key="player" class="ma-0 py-0 px-3 overline" no-gutters >
-          <v-col cols="8">{{ extractUsername(player) }}</v-col>
+        <v-row v-for="player in getOrderedScores()" :key="player" :class="['ma-0 py-0 px-3 overline', { 'blue--text': player === fullUsername }]" no-gutters >
+          <v-col cols="8">
+            {{ extractUsername(player) }}
+            <v-icon x-small v-if="player===room.whoIsDrawing">mdi-brush</v-icon>
+            <v-icon x-small v-if="room.playersWhoGuessed.includes(player)">mdi-check</v-icon>
+          </v-col>
           <v-col cols="4" class="text-right">{{ room.scores[player] }}</v-col>
         </v-row>
       </v-sheet>
@@ -174,6 +178,9 @@ export default {
     },
     extractUsername (fullUsername) {
       return fullUsername.substring(0, fullUsername.length-36)
+    },
+    getOrderedScores () {
+      return Object.entries(this.room.scores).sort((a, b) => a[1] > b[1] ? -1 : 1).map(e => e[0])
     }
   },
 
