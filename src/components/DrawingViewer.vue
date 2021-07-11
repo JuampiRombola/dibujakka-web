@@ -1,5 +1,12 @@
 <template>
-  <canvas ref="canvasViewer" width="500" height="500"></canvas>
+  <div>
+    <div v-show="src.length !== 0">
+      <img :src="src" alt="" ref="imgViewer"/>
+    </div>
+    <div v-show="src.length === 0">
+      <canvas ref="canvasViewer" width="500" height="500" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -7,24 +14,23 @@ export default {
   name: "DrawingViewer",
 
   data: () => ({
-    canvas: null,
-    pollingInterval: undefined,
+    src: ''
   }),
 
   methods: {
     setDimensions ({ width, height }) {
+      this.$refs.imgViewer.width = width
+      this.$refs.imgViewer.height = height
       this.$refs.canvasViewer.width = width
       this.$refs.canvasViewer.height = height
     },
     setDrawing (strDataURI) {
-      const img = new Image();
-      img.addEventListener("load", () => {
-        this.$refs.canvasViewer
-          .getContext("2d")
-          .drawImage(img, 0, 0, img.width, img.height, 0, 0, this.$refs.canvasViewer.width, this.$refs.canvasViewer.height);
-      });
-      img.setAttribute("src", strDataURI);
+      this.src = strDataURI
     }
+  },
+
+  mounted() {
+    this.setDrawing('')
   }
 }
 </script>

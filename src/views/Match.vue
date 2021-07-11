@@ -76,7 +76,9 @@ export default {
         this.addChatMessage(command.payload)
       }
       if (messageType === 'draw') {
-        this.$refs.playingRoom.setDrawing(command.payload)
+        if (this.$refs.playingRoom) {
+          this.$refs.playingRoom.setDrawing(command.payload)
+        }
       }
     },
     startTimer (duration) {

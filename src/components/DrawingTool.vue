@@ -74,15 +74,15 @@ export default {
 
   computed: {
     drawing2String () {
-      return this.$refs.editor.saveImage()
+      return (this.$refs.editor) ? this.$refs.editor.saveImage() : ''
     }
   },
 
   methods: {
     enableDrawingMode () {
       this.freeDrawing()
-      this.pollingInterval = setInterval(this.sendDrawingToServer, 1000)
-      setTimeout(() => clearInterval(this.pollingInterval), 60000)
+      // this.pollingInterval = setInterval(this.sendDrawingToServer, 1000)
+      // setTimeout(() => clearInterval(this.pollingInterval), 60000)
     },
     freeDrawing () {
       this.currentTool = 'freeDrawing'
@@ -114,6 +114,12 @@ export default {
 
   mounted() {
     this.enableDrawingMode()
+    this.$refs.editor.canvas.on('mouse:up', () => {
+      this.sendDrawingToServer()
+    })
+    this.$refs.editor.canvas.on('canvas:cleared', () => {
+      this.sendDrawingToServer()
+    })
   },
 
   watch: {

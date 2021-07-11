@@ -66,10 +66,20 @@
       v-if="$vuetify.breakpoint.mdAndDown"
     >
       <v-sheet
-        color="grey"
+        color="grey lighten-4"
         rounded="lg"
         min-height="268"
       >
+        <div class="overline text-center">SCORES</div>
+        <v-divider></v-divider>
+        <v-row v-for="player in getOrderedScores()" :key="player" :class="['ma-0 py-0 px-3 overline', { 'blue--text': player === fullUsername }]" no-gutters >
+          <v-col cols="8">
+            {{ extractUsername(player) }}
+            <v-icon x-small v-if="player===room.whoIsDrawing">mdi-brush</v-icon>
+            <v-icon x-small v-if="room.playersWhoGuessed.includes(player)">mdi-check</v-icon>
+          </v-col>
+          <v-col cols="4" class="text-right">{{ room.scores[player]*10 }}</v-col>
+        </v-row>
       </v-sheet>
     </v-col>
 
@@ -125,22 +135,6 @@ export default {
   },
 
   props: {
-    // room: {
-    //   type: Object,
-    //   default: () => ({
-    //     currentRound: "0",
-    //     language: "",
-    //     players: [],
-    //     playersWhoGuessed: [],
-    //     remainingTime: "60",
-    //     scores: {},
-    //     status: "interval",
-    //     totalRounds: "10",
-    //     totalTime: "60",
-    //     whoIsDrawing: "",
-    //     word: ""
-    //   })
-    // }
     webSocket: {},
     remainingTime: {}
   },
