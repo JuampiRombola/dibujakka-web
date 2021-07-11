@@ -101,7 +101,7 @@
           color="grey"
           append-icon="mdi-send"
           @click:append="sendWord"
-          :disabled="chatEnabled"
+          :disabled="chatDisabled"
         >
         </v-text-field>
       </v-sheet>
@@ -194,8 +194,11 @@ export default {
     inProgress () {
       return this.room.status === 'in progress'
     },
-    chatEnabled () {
-      return this.drawingModeEnabled && this.inProgress
+    chatDisabled () {
+      return this.drawingModeEnabled || !this.inProgress || this.hasGuessed
+    },
+    hasGuessed () {
+      return this.room.playersWhoGuessed.includes(this.fullUsername)
     }
   },
 
