@@ -99,7 +99,6 @@ export default {
       this.$refs.editor.clear()
     },
     sendDrawingToServer () {
-            console.log(this.drawing2String)
             this.chunkSubstr(this.drawing2String + 'END', 1000).forEach(chunk => {
             this.webSocket.send(JSON.stringify({
             messageType: "draw",
