@@ -99,16 +99,28 @@ export default {
       this.$refs.editor.clear()
     },
     sendDrawingToServer () {
-      this.webSocket.send(JSON.stringify({
-        messageType: "draw",
-        payload: this.drawing2String
-      }))
+      this.chunkSubstr(this.drawing2String + 'END', 100).forEach(chunk => {
+        this.webSocket.send(JSON.stringify({
+          messageType: "draw",
+          payload: chunk
+        }))
+      })
     },
     colorIfSelected (tool) {
       return this.currentTool === tool ? 'blue' : 'grey'
     },
     setDimensions ({ width, height }) {
       this.$refs.editor.canvas.setDimensions({width: width, height: height});
+    },
+    chunkSubstr (str, size) {
+      const numChunks = Math.ceil(str.length / size)
+      const chunks = new Array(numChunks)
+
+      for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+        chunks[i] = str.substr(o, size)
+      }
+
+      return chunks
     }
   },
 

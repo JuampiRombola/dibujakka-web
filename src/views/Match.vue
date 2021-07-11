@@ -23,7 +23,8 @@ export default {
   data: () => ({
     webSocket: undefined,
     remainingTime: '',
-    timerInterval: ''
+    timerInterval: '',
+    drawing: ''
   }),
 
   computed: {
@@ -72,6 +73,9 @@ export default {
         }
         if (command.payload?.status !== this.room.status && command.payload.status === 'interval') {
           this.startTimer(10) // hardcoded 10s interval
+          if (this.$refs.playingRoom) {
+            this.$refs.playingRoom.setDrawing('')
+          }
         }
         this.setRoom(command.payload)
       }
@@ -79,8 +83,10 @@ export default {
         this.addChatMessage(command.payload)
       }
       if (messageType === 'draw') {
-        if (this.$refs.playingRoom) {
-          this.$refs.playingRoom.setDrawing(command.payload)
+        this.drawing += command.payload
+        if (this.$refs.playingRoom && this.drawing.substring(this.drawing.length - 3) === 'END') {
+          this.$refs.playingRoom.setDrawing(this.drawing.substring(0, this.drawing.length - 3))
+          this.drawing = ''
         }
       }
     },
