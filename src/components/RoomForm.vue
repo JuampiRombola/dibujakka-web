@@ -1,21 +1,21 @@
 <template>
   <v-card flat>
     <v-text-field
-      label="Name"
+      label="Nombre de la sala"
       v-model="name"
     ></v-text-field>
     <v-select
-      label="Players"
+      label="Cantidad máxima de jugadores"
       v-model="players"
       :items="playersItems"
     ></v-select>
     <v-select
-      label="Rounds"
+      label="Cantidad de rondas"
       v-model="rounds"
       :items="roundsItems"
     ></v-select>
     <v-select
-      label="Language"
+      label="Idioma"
       v-model="language"
       :items="languageItems"
     ></v-select>
@@ -34,7 +34,7 @@ export default {
     playersItems: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
     roundsItems: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
     languageItems: [{
-      text: 'Spanish',
+      text: 'Español',
       value: 'spanish'
     }]
   }),

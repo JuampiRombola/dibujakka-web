@@ -74,7 +74,7 @@ export default {
 
   computed: {
     drawing2String () {
-      return (this.$refs.editor) ? this.$refs.editor.saveImage() : ''
+      return (this.$refs.editor) ? this.$refs.editor.canvas.toDataURL('image/jpeg', 0.5) : ''
     }
   },
 
@@ -99,7 +99,7 @@ export default {
       this.$refs.editor.clear()
     },
     sendDrawingToServer () {
-      this.chunkSubstr(this.drawing2String + 'END', 100).forEach(chunk => {
+      this.chunkSubstr(this.drawing2String + 'END', 1000).forEach(chunk => {
         this.webSocket.send(JSON.stringify({
           messageType: "draw",
           payload: chunk

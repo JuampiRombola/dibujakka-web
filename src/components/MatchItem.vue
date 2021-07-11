@@ -7,7 +7,7 @@
         </v-col>
         <v-col cols="4" class="text-right">
           <v-chip small outlined :color="match.status === 'Waiting' ? 'yellow darken-3' : 'green'">
-            {{ match.status }}
+            {{ statuses[match.status] }}
           </v-chip>
         </v-col>
       </v-row>
@@ -29,7 +29,7 @@
                   mdi-account-group
                 </v-icon>
               </template>
-              <span>Players</span>
+              <span>Jugadores</span>
             </v-tooltip>
             <span class="overline">{{ match.playersCount }} / {{ match.maxPlayers }}</span>
           </div>
@@ -48,7 +48,7 @@
                   mdi-counter
                 </v-icon>
               </template>
-              <span>Rounds</span>
+              <span>Rondas</span>
             </v-tooltip>
             <span class="overline">{{ match.currentRound }} / {{ match.totalRounds }}</span>
           </div>
@@ -67,7 +67,7 @@
                   mdi-chat
                 </v-icon>
               </template>
-              <span>Language</span>
+              <span>Idioma</span>
             </v-tooltip>
             <span class="overline">{{ match.language }}</span>
           </div>
@@ -76,7 +76,7 @@
         <v-col sm="4" cols="12" :class="($vuetify.breakpoint.smAndUp) ? 'text-right' : 'mt-2'">
           <v-btn color="primary" small :block="!$vuetify.breakpoint.smAndUp" @click="joinRoom" :disabled="disableJoinButton">
             <v-icon left>mdi-location-enter</v-icon>
-            join
+            Unirse
           </v-btn>
         </v-col>
       </v-row>
@@ -93,6 +93,15 @@ export default {
   },
 
   name: "MatchItem",
+
+  data: () => ({
+    statuses: {
+      waiting: 'En espera',
+      'in progress': 'En partida',
+      finished: 'Terminado',
+      interval: 'Intervalo'
+    }
+  }),
 
   computed: {
     disableJoinButton () {

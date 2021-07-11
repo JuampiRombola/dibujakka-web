@@ -7,7 +7,7 @@
         color="grey lighten-4"
       >
         <v-card-title>
-          <span class="overline">ROUND: {{ room.currentRound }}/{{ room.totalRounds }}</span>
+          <span class="overline">RONDA: {{ room.currentRound }}/{{ room.totalRounds }}</span>
         </v-card-title>
         <v-spacer></v-spacer>
         <v-card-title v-if="localPlayerIsDrawing || isInterval">
@@ -29,7 +29,7 @@
         rounded="lg"
         min-height="268"
       >
-        <div class="overline text-center">SCORES</div>
+        <div class="overline text-center">PUNTAJES</div>
         <v-divider></v-divider>
         <v-row v-for="player in getOrderedScores()" :key="player" :class="['ma-0 py-0 px-3 overline', { 'blue--text': player === fullUsername }]" no-gutters >
           <v-col cols="8">
@@ -55,7 +55,7 @@
         <div v-if="isInterval">
           <v-row align="center" justify="center" no-gutters class="ma-0 pa-0">
             <v-col class="text-center ma-0 pa-0">
-              Waiting for next round
+              Esperando la siguiente ronda...
             </v-col>
           </v-row>
         </div>
@@ -79,7 +79,7 @@
         rounded="lg"
         min-height="268"
       >
-        <div class="overline text-center">SCORES</div>
+        <div class="overline text-center">PUNTAJES</div>
         <v-divider></v-divider>
         <v-row v-for="player in getOrderedScores()" :key="player" :class="['ma-0 py-0 px-3 overline', { 'blue--text': player === fullUsername }]" no-gutters >
           <v-col cols="8">
