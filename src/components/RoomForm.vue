@@ -36,9 +36,6 @@ export default {
     languageItems: [{
       text: 'Spanish',
       value: 'spanish'
-    }, {
-      text: 'English',
-      value: 'english'
     }]
   }),
 
