@@ -8,6 +8,16 @@
         :src="require('../assets/dibujakka-logo-name.png')"
       ></v-img>
     </v-col>
+    <v-col cols="12" v-if="isFinished && getWinners().length">
+      <v-card max-width="500" class="mx-auto text-center" flat>
+      <span class="overline">
+        <v-icon color="primary" left small class="pb-1">mdi-crown</v-icon>
+        Last winner{{ (getWinners().length > 1) ? 's' : '' }}
+        <v-icon color="primary" right small class="pb-1">mdi-crown</v-icon>
+      </span>
+        <div class="overline" v-for="winner in getWinners()" :key="winner[0]">{{ winner[1] * 10 }} - {{ extractUsername(winner[0]) }}</div>
+      </v-card>
+    </v-col>
     <v-col cols="12">
       <v-card max-width="500" class="mx-auto" flat>
         <v-divider></v-divider>
@@ -57,6 +67,9 @@ export default {
     ]),
     players () {
       return this.room?.players || []
+    },
+    isFinished () {
+      return this.room?.status === 'finished'
     }
   },
 
@@ -80,9 +93,16 @@ export default {
         messageType: "start",
         payload: ""
       }))
+    },
+    getOrderedScores () {
+      return Object.entries(this.room.scores).sort((a, b) => a[1] > b[1] ? -1 : 1)
+    },
+    getWinners () {
+      const orderedScores = this.getOrderedScores()
+      const maxScore = Math.max(...this.getOrderedScores().map(e => e[1]))
+      return orderedScores.filter(s => s[1] === maxScore)
     }
   }
-
 }
 </script>
 
