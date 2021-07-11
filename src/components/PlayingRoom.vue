@@ -37,7 +37,7 @@
             <v-icon x-small v-if="player===room.whoIsDrawing">mdi-brush</v-icon>
             <v-icon x-small v-if="room.playersWhoGuessed.includes(player)">mdi-check</v-icon>
           </v-col>
-          <v-col cols="4" class="text-right">{{ room.scores[player] }}</v-col>
+          <v-col cols="4" class="text-right">{{ room.scores[player]*10 }}</v-col>
         </v-row>
       </v-sheet>
     </v-col>
