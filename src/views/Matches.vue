@@ -13,7 +13,7 @@
       </v-row>
 
       <v-col class="text-center mb-0 pb-0 mt-1 overline" v-if="$store.state.username">
-        Hello, {{ $store.state.username }}
+        Hola, {{ $store.state.username }}
         <v-icon small color="grey" @click="editUsername" class="pt-0 mt-0 pb-1">mdi-pencil</v-icon>
       </v-col>
 
@@ -24,17 +24,17 @@
           v-model="roomFormDialog"
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" v-bind="attrs" v-on="on" class="mb-2">Create Room</v-btn>
+            <v-btn color="primary" v-bind="attrs" v-on="on" class="mb-2">Crear sala</v-btn>
           </template>
           <v-card>
-            <v-toolbar color="primary" dark dense>Create Room</v-toolbar>
+            <v-toolbar color="primary" dark dense>Crear sala</v-toolbar>
             <v-card-text class="mt-5 mb-0 pb-0">
               <RoomForm ref="roomForm"></RoomForm>
             </v-card-text>
             <v-card-actions class="justify-end">
-              <v-btn text @click="roomFormDialog = false">Close</v-btn>
+              <v-btn text @click="roomFormDialog = false">Cerrar</v-btn>
               <v-spacer></v-spacer>
-              <v-btn color="primary" @click="createRoom" :disabled="loadingRoomCreation">Create</v-btn>
+              <v-btn color="primary" @click="createRoom" :disabled="loadingRoomCreation">Crear</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>

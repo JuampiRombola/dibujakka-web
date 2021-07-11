@@ -99,11 +99,10 @@ export default {
       this.$refs.editor.clear()
     },
     sendDrawingToServer () {
-      this.chunkSubstr(this.drawing2String + 'END', 100).forEach(chunk => {
-        this.webSocket.send(JSON.stringify({
-          messageType: "draw",
-          payload: chunk
-        }))
+            this.chunkSubstr(this.drawing2String + 'END', 1000).forEach(chunk => {
+            this.webSocket.send(JSON.stringify({
+            messageType: "draw",
+            payload: chunk}))
       })
     },
     colorIfSelected (tool) {
