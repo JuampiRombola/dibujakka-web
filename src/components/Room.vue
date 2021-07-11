@@ -12,7 +12,7 @@
       <v-card max-width="500" class="mx-auto text-center" flat>
       <span class="overline">
         <v-icon color="primary" left small class="pb-1">mdi-crown</v-icon>
-        Last winner{{ (getWinners().length > 1) ? 's' : '' }}
+        Último{{ (getWinners().length > 1) ? 's' : '' }} Ganador{{ (getWinners().length > 1) ? 'es' : '' }}
         <v-icon color="primary" right small class="pb-1">mdi-crown</v-icon>
       </span>
         <div class="overline" v-for="winner in getWinners()" :key="winner[0]">{{ winner[1] * 10 }} - {{ extractUsername(winner[0]) }}</div>
@@ -38,8 +38,8 @@
         </v-list>
         <v-list>
           <v-list-item>
-            <v-btn block color="primary" :disabled="!canStart()" v-if="isOwner()" @click="startGame">Start Game</v-btn>
-            <v-btn block color="primary" disabled v-else>Only the owner can start the game</v-btn>
+            <v-btn block color="primary" :disabled="!canStart()" v-if="isOwner()" @click="startGame">Empezar juego</v-btn>
+            <v-btn block color="primary" disabled v-else>Solo el dueño de la sala puede empezar el juego</v-btn>
           </v-list-item>
         </v-list>
       </v-card>
