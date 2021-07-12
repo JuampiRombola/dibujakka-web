@@ -83,6 +83,9 @@ export default {
         this.addChatMessage(command.payload)
       }
       if (messageType === 'draw') {
+        if (command.payload.substring(0, 4) === 'data') {
+          this.drawing = ''
+        }
         this.drawing += command.payload
         if (this.$refs.playingRoom && this.drawing.substring(this.drawing.length - 3) === 'END') {
           this.$refs.playingRoom.setDrawing(this.drawing.substring(0, this.drawing.length - 3))

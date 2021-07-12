@@ -99,12 +99,15 @@ export default {
       this.$refs.editor.clear()
     },
     sendDrawingToServer () {
-      this.chunkSubstr(this.drawing2String + 'END', 1000).forEach(chunk => {
-        this.webSocket.send(JSON.stringify({
-          messageType: "draw",
-          payload: chunk
-        }))
-      })
+      const chunks = this.chunkSubstr(this.drawing2String + 'END', 200);
+      for (let i=0; i < chunks.length; i++) {
+        setTimeout(() => {
+          this.webSocket.send(JSON.stringify({
+            messageType: "draw",
+            payload: chunks[i]
+          }))
+        }, i*10)
+      }
     },
     colorIfSelected (tool) {
       return this.currentTool === tool ? 'blue' : 'grey'
